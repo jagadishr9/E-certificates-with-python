@@ -1,0 +1,30 @@
+from PIL import Image, ImageDraw, ImageFont
+import xlrd
+
+# create Image object with the input image 
+image = Image.open('certificate.png')
+# Give the location of the file 
+loc = ("Names.xlsx")
+
+# To open Workbook 
+wb = xlrd.open_workbook(loc) 
+sheet = wb.sheet_by_index(0)
+
+# initialise the drawing context with
+# the image object as background
+ 
+draw = ImageDraw.Draw(image)
+font = ImageFont.truetype('arial.ttf', size=20)
+ 
+# starting position of the message
+ 
+(x, y) = (350, 400)
+color = 'rgb(0, 0, 0)' # black color
+
+for i in range(0,5):
+    message=sheet.cell_value(i, 0)
+    draw.text((x, y), message, fill=color, font=font)
+    name="certificates/"+message+".png";
+    image.save(name);
+    image = Image.open('certificate.png')
+    draw = ImageDraw.Draw(image);
